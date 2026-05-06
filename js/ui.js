@@ -18,7 +18,7 @@ const UI = {
             card.className = 'manga-card';
             card.innerHTML = `
                 ${isFav ? '<span class="card-fav-badge">❤️</span>' : ''}
-                <img class="manga-cover" src="${cover}" alt="${title}" loading="lazy"
+                <img class="manga-cover" src="${cover}" alt="${title}" loading="lazy" referrerpolicy="no-referrer"
                      onerror="this.src='https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada'">
                 <div class="manga-card-info">
                     <div class="manga-card-title" title="${title}">${title}</div>
@@ -46,7 +46,7 @@ const UI = {
             card.innerHTML = `
                 <span class="card-fav-badge">❤️</span>
                 <img class="manga-cover" src="${fav.coverUrl || 'https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada'}"
-                     alt="${fav.title}" loading="lazy"
+                     alt="${fav.title}" loading="lazy" referrerpolicy="no-referrer"
                      onerror="this.src='https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada'">
                 <div class="manga-card-info">
                     <div class="manga-card-title" title="${fav.title}">${fav.title}</div>
@@ -76,7 +76,7 @@ const UI = {
             item.className = 'history-item';
             item.innerHTML = `
                 <img class="history-cover" src="${entry.coverUrl || 'https://placehold.co/48x68/1a1d2e/8B5CF6?text=M'}"
-                     alt="${entry.mangaTitle}" loading="lazy"
+                     alt="${entry.mangaTitle}" loading="lazy" referrerpolicy="no-referrer"
                      onerror="this.src='https://placehold.co/48x68/1a1d2e/8B5CF6?text=M'">
                 <div class="history-info">
                     <div class="history-manga-title">${entry.mangaTitle}</div>
@@ -104,7 +104,7 @@ const UI = {
         container.innerHTML = `
             <div class="detail-wrapper">
                 <div class="detail-header">
-                    <img class="detail-cover" src="${cover}" alt="${title}"
+                    <img class="detail-cover" src="${cover}" alt="${title}" referrerpolicy="no-referrer"
                          onerror="this.src='https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada'">
                     <div class="detail-info">
                         <h2 class="detail-title">${title}</h2>
@@ -182,6 +182,7 @@ const UI = {
             img.src       = url;
             img.alt       = `Página ${i + 1}`;
             img.loading   = 'lazy';
+            img.referrerPolicy = 'no-referrer';
             container.appendChild(img);
         });
     },
