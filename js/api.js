@@ -3,7 +3,8 @@ const API_BASE = 'https://api.mangadex.org';
 const UPLOADS = 'https://uploads.mangadex.org';
 
 // Proxy para evitar bloqueos de CORS en GitHub Pages
-// Eliminado: MangaDex soporta CORS de forma nativa. El proxy rompía los parámetros de URL (includes[]).
+// Usamos allorigins para las peticiones JSON porque MangaDex bloquea CORS directo
+const proxyUrl = (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
 
 const MangaAPI = {
 
@@ -27,7 +28,7 @@ const MangaAPI = {
                 url.searchParams.append('availableTranslatedLanguage[]', 'en');
             }
 
-            const res = await fetch(url.toString());
+            const res = await fetch(proxyUrl(url.toString()));
             if (!res.ok) throw new Error('Search failed: ' + res.status);
             const data = await res.json();
             return data.data || [];
@@ -41,7 +42,7 @@ const MangaAPI = {
     async getManga(id) {
         try {
             const url = `${API_BASE}/manga/${id}?includes[]=cover_art&includes[]=author&includes[]=artist`;
-            const res = await fetch(url);
+            const res = await fetch(proxyUrl(url));
             if (!res.ok) throw new Error('getManga failed');
             const data = await res.json();
             return data.data;
@@ -72,7 +73,7 @@ const MangaAPI = {
             }
             // 'all' = sin filtro de idioma
 
-            const res = await fetch(url.toString());
+            const res = await fetch(proxyUrl(url.toString()));
             if (!res.ok) throw new Error('getChapters failed');
             const data = await res.json();
             return data.data || [];
@@ -86,7 +87,7 @@ const MangaAPI = {
     async getChapterImages(chapterId) {
         try {
             const atHomeUrl = `${API_BASE}/at-home/server/${chapterId}`;
-            const res = await fetch(atHomeUrl);
+            const res = await fetch(proxyUrl(atHomeUrl));
             if (!res.ok) throw new Error('getChapterImages failed');
             const data = await res.json();
             const { chapter } = data;
