@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaVerse — Lee Manga, Manhwa y Manhua en Español</title>
+    <meta name="description" content="MangaVerse: el lector online y app móvil para leer manga, manhwa y manhua en español e inglés. Descarga la app gratis.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a class="nav-logo" id="nav-logo-btn" href="#" aria-label="MangaVerse inicio">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">Manga<span class="logo-accent">Verse</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#" class="nav-link" id="nav-read-btn">
+                    <i class="fa-solid fa-book-open"></i> Leer Online
+                </a>
+                <a href="#features" class="nav-link">Características</a>
+                <a href="#download" class="nav-link nav-cta" id="nav-download-btn">
+                    <i class="fa-solid fa-download"></i> Descargar App
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#" class="mobile-link" id="mob-read-btn"><i class="fa-solid fa-book-open"></i> Leer Online</a>
+            <a href="#features" class="mobile-link">Características</a>
+            <a href="#download" class="mobile-link">Descargar App</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════ VIEWS (SPA) ═══════════════════════════ -->
+    <div id="spa-wrapper">
+
+        <!-- ── LANDING PAGE ── -->
+        <div id="view-landing">
+
+            <!-- HERO -->
+            <section class="hero" id="hero">
+                <canvas id="particles-canvas"></canvas>
+                <div class="hero-content">
+                    <div class="hero-badge">🌌 Más de 1M de capítulos disponibles</div>
+                    <h1 class="hero-title">
+                        El universo del manga<br>
+                        en la palma de tu mano
+                    </h1>
+                    <p class="hero-subtitle">
+                        Lee manga, manhwa y manhua en español e inglés. Gratis, sin registro y sin anuncios.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn-primary" id="hero-read-btn">
+                            <i class="fa-solid fa-book-open"></i> Leer Online Ahora
+                        </button>
+                        <a href="#download" class="btn-secondary">
+                            <i class="fa-solid fa-mobile-screen"></i> Descargar App
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat"><strong>50K+</strong><span>Títulos</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat"><strong>ES / EN</strong><span>Idiomas</span></div>
+                        <div class="stat-divider"></div>
+                        <div class="stat"><strong>100%</strong><span>Gratis</span></div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="phone-mockup">
+                        <div class="phone-inner">
+                            <img src="img/app_mockup.png" alt="MangaVerse App Preview" class="phone-screen-img" id="mockup-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="phone-screen-fallback" style="display:none;">
+                                <span class="logo-icon" style="font-size:3rem;">⬡</span>
+                                <span style="color:var(--accent-primary);font-weight:700;font-size:1.2rem;">MangaVerse</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glow-orb orb-1"></div>
+                    <div class="glow-orb orb-2"></div>
+                </div>
+            </section>
+
+            <!-- FEATURES -->
+            <section class="features-section" id="features">
+                <div class="section-container">
+                    <div class="section-badge">¿Por qué MangaVerse?</div>
+                    <h2 class="section-title">Todo lo que necesitas para leer</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-language"></i></div>
+                            <h3>Español e Inglés</h3>
+                            <p>Accede a miles de capítulos en español latinoamericano e inglés gracias a nuestra integración con fuentes públicas de la red.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <h3>Carga Ultra Rápida</h3>
+                            <p>Imágenes optimizadas con carga diferida para que no pierdas ni un segundo y leas sin interrupciones.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                            <h3>App Móvil Nativa</h3>
+                            <p>Disponible para Android e iOS. Lee en cualquier lugar, incluso sin conexión con tus capítulos descargados.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+                            <h3>Lista de Favoritos</h3>
+                            <p>Guarda tus mangas favoritos y recibe notificaciones cuando salgan nuevos capítulos.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-ban"></i></div>
+                            <h3>Sin Publicidad</h3>
+                            <p>Disfruta de una experiencia de lectura completamente limpia. Sin anuncios, sin interrupciones, sin costos ocultos.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+                            <h3>Manga, Manhwa & Manhua</h3>
+                            <p>No solo manga japonés. Accede también a cómics coreanos (manhwa) y chinos (manhua) en un solo lugar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOWNLOAD -->
+            <section class="download-section" id="download">
+                <div class="section-container download-inner">
+                    <div class="download-text">
+                        <div class="section-badge">App Disponible</div>
+                        <h2 class="section-title" style="text-align:left;">Llévate MangaVerse<br>a donde vayas</h2>
+                        <p class="download-desc">Descarga la app móvil y lee tus mangas favoritos en cualquier lugar. Disponible para Android e iOS.</p>
+                        <div class="download-buttons">
+                            <a href="#" class="download-btn" id="android-btn" aria-label="Descargar en Google Play">
+                                <i class="fa-brands fa-google-play"></i>
+                                <div>
+                                    <small>Disponible en</small>
+                                    <strong>Google Play</strong>
+                                </div>
+                            </a>
+                            <a href="#" class="download-btn" id="ios-btn" aria-label="Descargar en App Store">
+                                <i class="fa-brands fa-apple"></i>
+                                <div>
+                                    <small>Descargar en</small>
+                                    <strong>App Store</strong>
+                                </div>
+                            </a>
+                        </div>
+                        <p class="coming-soon-note">* Próximamente en las tiendas oficiales</p>
+                    </div>
+                    <div class="download-visual">
+                        <div class="phone-mockup phone-sm">
+                            <div class="phone-inner">
+                                <img src="img/app_mockup.png" alt="MangaVerse App" class="phone-screen-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="phone-screen-fallback" style="display:none;">
+                                    <span class="logo-icon" style="font-size:2rem;">⬡</span>
+                                    <span style="color:var(--accent-primary);font-weight:700;">MangaVerse</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LEGAL FOOTER -->
+            <footer class="site-footer">
+                <div class="footer-inner">
+                    <div class="footer-logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">Manga<span class="logo-accent">Verse</span></span>
+                    </div>
+                    <div class="footer-legal">
+                        <h4>⚖️ Aviso Legal y Responsabilidad</h4>
+                        <p><strong>MangaVerse actúa únicamente como visor/reproductor.</strong> No almacenamos, alojamos ni distribuimos ningún archivo de manga, manhwa o manhua en nuestros servidores.</p>
+                        <p>Todo el contenido se obtiene de <strong>fuentes públicas disponibles en internet</strong> (incluyendo ComicK.io y MangaDex). Todos los materiales, personajes e ilustraciones son propiedad exclusiva de sus respectivos autores, editoriales y grupos de scanlation.</p>
+                        <p>El uso de esta aplicación y del contenido al que se accede a través de ella es <strong>responsabilidad exclusiva del usuario final</strong>. MangaVerse no se hace responsable del uso indebido del servicio.</p>
+                    </div>
+                    <p class="footer-copy">© 2025 MangaVerse. Todos los derechos de los materiales pertenecen a sus respectivos dueños.</p>
+                </div>
+            </footer>
+
+        </div><!-- /view-landing -->
+
+        <!-- ── LECTOR WEB ── -->
+        <div id="view-reader-app" style="display:none;">
+
+            <!-- Back to landing bar -->
+            <div class="reader-topbar">
+                <button class="back-to-landing" id="btn-to-landing">
+                    <i class="fa-solid fa-arrow-left"></i> Inicio
+                </button>
+                <span class="topbar-logo">
+                    <span class="logo-icon">⬡</span> MangaVerse
+                </span>
+            </div>
+
+            <!-- HOME SCREEN of reader -->
+            <div id="screen-home" class="reader-screen active">
+                <div class="reader-hero">
+                    <h2>Explorar Catálogo</h2>
+                    <p>Busca entre miles de títulos en español e inglés</p>
+                    <div class="reader-search-bar">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Buscar manga, manhwa, manhua...">
+                        <button id="search-btn" aria-label="Buscar">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="reader-content">
+                    <div class="section-header">
+                        <h3 id="results-title">Populares Ahora</h3>
+                        <div id="lang-filter" class="lang-filter">
+                            <button class="lang-btn active" data-lang="es">🇪🇸 Español</button>
+                            <button class="lang-btn" data-lang="en">🇺🇸 English</button>
+                            <button class="lang-btn" data-lang="all">🌐 Todos</button>
+                        </div>
+                    </div>
+                    <div id="manga-grid" class="manga-grid">
+                        <div class="grid-loader" id="home-loader">
+                            <div class="loader-ring"></div>
+                            <span>Cargando títulos...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETAIL SCREEN -->
+            <div id="screen-detail" class="reader-screen" style="display:none;">
+                <button class="back-btn" id="btn-back-to-home">
+                    <i class="fa-solid fa-arrow-left"></i> Volver
+                </button>
+                <div id="detail-container"></div>
+            </div>
+
+            <!-- CHAPTER READER SCREEN -->
+            <div id="screen-chapter" class="reader-screen chapter-reader" style="display:none;">
+                <div class="chapter-topbar glass-bar">
+                    <button class="back-btn" id="btn-back-to-detail">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <span id="chapter-label">Capítulo...</span>
+                    <div class="chapter-nav-btns">
+                        <button id="btn-prev-ch" title="Anterior" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="btn-next-ch" title="Siguiente" disabled><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div id="pages-container" class="pages-container">
+                    <div class="grid-loader" id="chapter-loader" style="display:none;">
+                        <div class="loader-ring"></div>
+                        <span>Cargando páginas...</span>
+                    </div>
+                </div>
+                <div class="chapter-bottombar glass-bar">
+                    <button id="btn-prev-ch-2" disabled><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+                    <button id="btn-next-ch-2" disabled>Siguiente <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+        </div><!-- /view-reader-app -->
+
+    </div><!-- /spa-wrapper -->
+
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
