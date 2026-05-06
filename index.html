@@ -137,7 +137,7 @@
                         <h2 class="section-title" style="text-align:left;">Llévate MangaVerse<br>a donde vayas</h2>
                         <p class="download-desc">Descarga la app móvil y lee tus mangas favoritos en cualquier lugar. Disponible para Android e iOS.</p>
                         <div class="download-buttons">
-                            <a href="mangaverse-app.apk" download class="download-btn" id="android-btn" aria-label="Descargar APK para Android">
+                            <a href="#" class="download-btn" id="android-btn" aria-label="Descargar APK para Android">
                                 <i class="fa-brands fa-android"></i>
                                 <div>
                                     <small>Descarga directa</small>
@@ -264,6 +264,37 @@
             </div>
 
         </div><!-- /view-reader-app -->
+
+        <!-- ── DOWNLOAD VIEW ── -->
+        <div id="view-download" style="display:none;">
+            <div class="reader-topbar">
+                <button class="back-to-landing" id="btn-to-landing-dl">
+                    <i class="fa-solid fa-arrow-left"></i> Inicio
+                </button>
+                <span class="topbar-logo">
+                    <span class="logo-icon">⬡</span> MangaVerse
+                </span>
+            </div>
+            
+            <div class="download-page-content" style="padding: 100px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Instala MangaVerse en tu Móvil</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Sigue estos pasos para instalar la aplicación en tu dispositivo Android de forma segura y sin complicaciones.</p>
+                
+                <div class="install-steps" style="text-align: left; background: var(--bg-card); padding: 2.5rem; border-radius: 16px; margin: 0 auto 3rem auto; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    <ol style="color: var(--text-muted); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                        <li><strong style="color: var(--text-light);">Descarga el archivo APK</strong> tocando el botón morado de abajo.</li>
+                        <li><strong style="color: var(--text-light);">Abre el archivo</strong> descargado desde tus notificaciones o gestor de archivos.</li>
+                        <li>Si el sistema te pide permisos, ve a Ajustes y activa <strong style="color: var(--accent-primary);">"Permitir instalar aplicaciones desconocidas"</strong>.</li>
+                        <li>Sigue las indicaciones en pantalla, instala la app y ¡comienza a leer!</li>
+                    </ol>
+                </div>
+                
+                <a href="mangaverse-app.apk" download class="btn-primary" style="font-size: 1.2rem; padding: 1rem 2.5rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-download"></i> Descargar APK Oficial
+                </a>
+                <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i> Archivo 100% seguro. Versión 1.0.0 (Android)</p>
+            </div>
+        </div><!-- /view-download -->
 
     </div><!-- /spa-wrapper -->
 

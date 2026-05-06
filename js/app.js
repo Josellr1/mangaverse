@@ -14,6 +14,7 @@ const App = {
         this.els = {
             viewLanding:    document.getElementById('view-landing'),
             viewReaderApp:  document.getElementById('view-reader-app'),
+            viewDownload:   document.getElementById('view-download'),
             mangaGrid:      document.getElementById('manga-grid'),
             homeLoader:     document.getElementById('home-loader'),
             chapterLoader:  document.getElementById('chapter-loader'),
@@ -41,7 +42,18 @@ const App = {
         if (mob) mob.addEventListener('click', toReader);
 
         document.getElementById('btn-to-landing').addEventListener('click', () => this.showLanding());
+        const btnToLandingDl = document.getElementById('btn-to-landing-dl');
+        if (btnToLandingDl) btnToLandingDl.addEventListener('click', () => this.showLanding());
         document.getElementById('nav-logo-btn').addEventListener('click', (e) => { e.preventDefault(); this.showLanding(); });
+
+        // Download View link
+        const androidBtn = document.getElementById('android-btn');
+        if (androidBtn) {
+            androidBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showDownload();
+            });
+        }
 
         // Back buttons
         document.getElementById('btn-back-to-home').addEventListener('click', () => { UI.showScreen('screen-home'); window.scrollTo(0,0); });
@@ -81,6 +93,14 @@ const App = {
     showLanding() {
         this.els.viewLanding.style.display = 'block';
         this.els.viewReaderApp.style.display = 'none';
+        if (this.els.viewDownload) this.els.viewDownload.style.display = 'none';
+        window.scrollTo(0, 0);
+    },
+
+    showDownload() {
+        this.els.viewLanding.style.display = 'none';
+        this.els.viewReaderApp.style.display = 'none';
+        if (this.els.viewDownload) this.els.viewDownload.style.display = 'block';
         window.scrollTo(0, 0);
     },
 
