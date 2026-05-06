@@ -207,7 +207,7 @@ const App = {
         const lang = this.state.activeLang === 'all' ? null : this.state.activeLang;
         const [manga, chapters] = await Promise.all([
             MangaAPI.getManga(mangaId),
-            MangaAPI.getChapters(mangaId, lang || 'es', 120, 0)
+            MangaAPI.getChapters(mangaId, lang || 'all', 120, 0)
         ]);
 
         this.state.chapters    = chapters;

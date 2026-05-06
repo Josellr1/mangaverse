@@ -95,9 +95,9 @@ const MangaAPI = {
             const pages = chapter.dataSaver || chapter.data;
             const quality = chapter.dataSaver ? 'data-saver' : 'data';
 
-            // Usar el CDN oficial de MangaDex y pasar las imágenes por proxy
-            const officialBase = 'https://uploads.mangadex.org';
-            return pages.map(p => proxyUrl(`${officialBase}/${quality}/${chapter.hash}/${p}`));
+            // El CDN de MangaDex (uploads) tiene CORS abierto, descarga directo sin proxy
+            const baseUrl = data.baseUrl || 'https://uploads.mangadex.org';
+            return pages.map(p => `${baseUrl}/${quality}/${chapter.hash}/${p}`);
         } catch (e) {
             console.error('[API] getChapterImages:', e);
             return [];
@@ -109,8 +109,8 @@ const MangaAPI = {
         const coverRel = manga.relationships?.find(r => r.type === 'cover_art');
         const fileName = coverRel?.attributes?.fileName;
         if (!fileName) return `https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada`;
-        const raw = `${UPLOADS}/covers/${manga.id}/${fileName}.${size}.jpg`;
-        return proxyUrl(raw);
+        // uploads.mangadex.org tiene CORS abierto, NO necesita proxy
+        return `${UPLOADS}/covers/${manga.id}/${fileName}.${size}.jpg`;
     },
 
     /** Título en español, inglés o el primero disponible */
