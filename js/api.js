@@ -85,7 +85,8 @@ const MangaAPI = {
     /** URLs de imágenes de un capítulo vía @home */
     async getChapterImages(chapterId) {
         try {
-            const res = await fetch(`${API_BASE}/at-home/server/${chapterId}`);
+            const atHomeUrl = `${API_BASE}/at-home/server/${chapterId}`;
+            const res = await fetch(proxyUrl(atHomeUrl));
             if (!res.ok) throw new Error('getChapterImages failed');
             const data = await res.json();
             const { chapter } = data;
@@ -94,9 +95,9 @@ const MangaAPI = {
             const pages = chapter.dataSaver || chapter.data;
             const quality = chapter.dataSaver ? 'data-saver' : 'data';
 
-            // Usar el CDN oficial de MangaDex que permite cross-origin
+            // Usar el CDN oficial de MangaDex y pasar las imágenes por proxy
             const officialBase = 'https://uploads.mangadex.org';
-            return pages.map(p => `${officialBase}/${quality}/${chapter.hash}/${p}`);
+            return pages.map(p => proxyUrl(`${officialBase}/${quality}/${chapter.hash}/${p}`));
         } catch (e) {
             console.error('[API] getChapterImages:', e);
             return [];
@@ -108,7 +109,8 @@ const MangaAPI = {
         const coverRel = manga.relationships?.find(r => r.type === 'cover_art');
         const fileName = coverRel?.attributes?.fileName;
         if (!fileName) return `https://placehold.co/200x300/1a1d2e/8B5CF6?text=Sin+Portada`;
-        return `${UPLOADS}/covers/${manga.id}/${fileName}.${size}.jpg`;
+        const raw = `${UPLOADS}/covers/${manga.id}/${fileName}.${size}.jpg`;
+        return proxyUrl(raw);
     },
 
     /** Título en español, inglés o el primero disponible */

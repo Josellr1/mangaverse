@@ -5,7 +5,7 @@ const App = {
         currentMangaObj:   null,
         currentChapterId:  null,
         chapters:          [],
-        activeLang:        'es',
+        activeLang:        'all',
         firstLoad:         true,
     },
 
