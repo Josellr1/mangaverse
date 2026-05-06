@@ -29,7 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _load() async {
     setState(() => _loading = true);
-    final results = await ApiService.searchMangas(_query, limit: 24);
+    final results = await ApiService.searchMangas(_query,
+        limit: 24, lang: _activeLang == 'all' ? null : _activeLang);
     if (mounted) setState(() { _mangas = results; _loading = false; });
   }
 
@@ -192,7 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _langChip(String lang, String label) {
     final active = _activeLang == lang;
     return GestureDetector(
-      onTap: () { setState(() => _activeLang = lang); },
+      onTap: () {
+        setState(() => _activeLang = lang);
+        _load();
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

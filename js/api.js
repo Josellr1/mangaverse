@@ -8,7 +8,7 @@ const proxyUrl = (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`;
 const MangaAPI = {
 
     /** Obtiene mangas populares o hace búsqueda por título */
-    async search(query = '', limit = 24, offset = 0) {
+    async search(query = '', limit = 24, offset = 0, lang = '') {
         try {
             const url = new URL(`${API_BASE}/manga`);
             if (query) url.searchParams.set('title', query);
@@ -16,10 +16,16 @@ const MangaAPI = {
             url.searchParams.set('offset', offset);
             url.searchParams.append('includes[]', 'cover_art');
             url.searchParams.append('includes[]', 'author');
-            // Ordenar por popularidad descendente
             url.searchParams.set('order[followedCount]', 'desc');
-            // Permitir todos los ratings
             ['safe', 'suggestive', 'erotica'].forEach(r => url.searchParams.append('contentRating[]', r));
+
+            // Language availability filter
+            if (lang === 'es') {
+                url.searchParams.append('availableTranslatedLanguage[]', 'es');
+                url.searchParams.append('availableTranslatedLanguage[]', 'es-la');
+            } else if (lang === 'en') {
+                url.searchParams.append('availableTranslatedLanguage[]', 'en');
+            }
 
             const res = await fetch(proxyUrl(url.toString()));
             if (!res.ok) throw new Error('Search failed: ' + res.status);

@@ -36,4 +36,9 @@ class FavoritesService {
     }
     await prefs.setString(_key, jsonEncode(list));
   }
+
+  static Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
 }

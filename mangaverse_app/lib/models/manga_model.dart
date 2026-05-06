@@ -38,17 +38,19 @@ class Manga {
         descMap['en'] ??
         (descMap.isNotEmpty ? descMap.values.first : null);
 
-    // Cover art
-    final coverRel = rels.firstWhere(
-      (r) => r['type'] == 'cover_art',
-      orElse: () => null,
-    );
-    String? coverUrl;
-    if (coverRel != null && coverRel['attributes'] != null) {
-      final fileName = coverRel['attributes']['fileName'];
-      if (fileName != null) {
-        coverUrl =
-            'https://uploads.mangadex.org/covers/${json['id']}/$fileName.256.jpg';
+    // Cover art — from relationships or direct _coverUrl key (favorites shortcut)
+    String? coverUrl = json['_coverUrl'] as String?;
+    if (coverUrl == null) {
+      final coverRel = rels.firstWhere(
+        (r) => r['type'] == 'cover_art',
+        orElse: () => null,
+      );
+      if (coverRel != null && coverRel['attributes'] != null) {
+        final fileName = coverRel['attributes']['fileName'];
+        if (fileName != null) {
+          coverUrl =
+              'https://uploads.mangadex.org/covers/${json['id']}/$fileName.256.jpg';
+        }
       }
     }
 

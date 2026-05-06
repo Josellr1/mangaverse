@@ -113,16 +113,16 @@
                         <div class="feature-card">
                             <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
                             <h3>Lista de Favoritos</h3>
-                            <p>Guarda tus mangas favoritos y recibe notificaciones cuando salgan nuevos capítulos.</p>
+                            <p>Guarda tus mangas favoritos y lleva el control de lo que quieres leer, tanto en la web como en la app.</p>
                         </div>
                         <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-ban"></i></div>
-                            <h3>Sin Publicidad</h3>
-                            <p>Disfruta de una experiencia de lectura completamente limpia. Sin anuncios, sin interrupciones, sin costos ocultos.</p>
+                            <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <h3>Historial de Lectura</h3>
+                            <p>Retoma exactamente donde lo dejaste. Tu historial de capítulos leídos siempre disponible.</p>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
-                            <h3>Manga, Manhwa & Manhua</h3>
+                            <h3>Manga, Manhwa &amp; Manhua</h3>
                             <p>No solo manga japonés. Accede también a cómics coreanos (manhwa) y chinos (manhua) en un solo lugar.</p>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                     <div class="footer-legal">
                         <h4>⚖️ Aviso Legal y Responsabilidad</h4>
                         <p><strong>MangaVerse actúa únicamente como visor/reproductor.</strong> No almacenamos, alojamos ni distribuimos ningún archivo de manga, manhwa o manhua en nuestros servidores.</p>
-                        <p>Todo el contenido se obtiene de <strong>fuentes públicas disponibles en internet</strong> (incluyendo ComicK.io y MangaDex). Todos los materiales, personajes e ilustraciones son propiedad exclusiva de sus respectivos autores, editoriales y grupos de scanlation.</p>
+                        <p>Todo el contenido se obtiene de <strong>fuentes públicas disponibles en internet</strong> (incluyendo MangaDex). Todos los materiales, personajes e ilustraciones son propiedad exclusiva de sus respectivos autores, editoriales y grupos de scanlation.</p>
                         <p>El uso de esta aplicación y del contenido al que se accede a través de ella es <strong>responsabilidad exclusiva del usuario final</strong>. MangaVerse no se hace responsable del uso indebido del servicio.</p>
                     </div>
                     <p class="footer-copy">© 2025 MangaVerse. Todos los derechos de los materiales pertenecen a sus respectivos dueños.</p>
@@ -198,6 +198,14 @@
                 <span class="topbar-logo">
                     <span class="logo-icon">⬡</span> MangaVerse
                 </span>
+                <div class="reader-topbar-actions">
+                    <button class="topbar-icon-btn" id="nav-favs-btn" title="Mis Favoritos">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                    <button class="topbar-icon-btn" id="nav-hist-btn" title="Historial">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- HOME SCREEN of reader -->
@@ -275,30 +283,75 @@
                     <span class="logo-icon">⬡</span> MangaVerse
                 </span>
             </div>
-            
-            <div class="download-page-content" style="padding: 100px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Instala MangaVerse en tu Móvil</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Sigue estos pasos para instalar la aplicación en tu dispositivo Android de forma segura y sin complicaciones.</p>
-                
-                <div class="install-steps" style="text-align: left; background: var(--bg-card); padding: 2.5rem; border-radius: 16px; margin: 0 auto 3rem auto; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                    <ol style="color: var(--text-muted); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
-                        <li><strong style="color: var(--text-light);">Descarga el archivo APK</strong> tocando el botón morado de abajo.</li>
-                        <li><strong style="color: var(--text-light);">Abre el archivo</strong> descargado desde tus notificaciones o gestor de archivos.</li>
+
+            <div style="padding: 100px 20px; max-width: 800px; margin: 0 auto; text-align: center;">
+                <div style="font-size:3rem;margin-bottom:1rem;">📱</div>
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Instala MangaVerse en tu Móvil</h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;">Sigue estos pasos para instalar la aplicación en tu dispositivo Android de forma segura.</p>
+
+                <div style="text-align: left; background: var(--bg-card); padding: 2.5rem; border-radius: 20px; margin: 0 auto 3rem auto; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    <ol style="color: var(--text-muted); line-height: 2.2; margin-left: 1.5rem; font-size: 1.05rem;">
+                        <li><strong style="color: var(--text);">Descarga el archivo APK</strong> tocando el botón de abajo.</li>
+                        <li><strong style="color: var(--text);">Abre el archivo</strong> descargado desde tus notificaciones o gestor de archivos.</li>
                         <li>Si el sistema te pide permisos, ve a Ajustes y activa <strong style="color: var(--accent-primary);">"Permitir instalar aplicaciones desconocidas"</strong>.</li>
-                        <li>Sigue las indicaciones en pantalla, instala la app y ¡comienza a leer!</li>
+                        <li>Sigue las indicaciones, instala la app y <strong style="color: var(--accent-secondary);">¡comienza a leer!</strong></li>
                     </ol>
                 </div>
-                
-                <a href="mangaverse-app.apk" download class="btn-primary" style="font-size: 1.2rem; padding: 1rem 2.5rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+
+                <a href="mangaverse-app.apk" download class="btn-primary" style="font-size: 1.15rem; padding: 1rem 2.5rem; display: inline-flex; align-items: center; gap: 0.6rem;">
                     <i class="fa-solid fa-download"></i> Descargar APK Oficial
                 </a>
-                <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i> Archivo 100% seguro. Versión 1.0.0 (Android)</p>
+                <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.88rem;">
+                    <i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i> Archivo 100% seguro · Versión 1.0.0 · Android 7+
+                </p>
             </div>
         </div><!-- /view-download -->
+
+        <!-- ── FAVORITES VIEW ── -->
+        <div id="view-favorites" style="display:none;">
+            <div class="reader-topbar">
+                <button class="back-to-landing" id="btn-to-landing-fav">
+                    <i class="fa-solid fa-arrow-left"></i> Inicio
+                </button>
+                <span class="topbar-logo">
+                    <i class="fa-solid fa-heart" style="color:var(--accent-primary);"></i> Mis Favoritos
+                </span>
+            </div>
+            <div style="padding-top:80px;">
+                <div class="reader-content">
+                    <div class="section-header">
+                        <h3>❤️ Mis Favoritos</h3>
+                    </div>
+                    <div id="favs-grid" class="manga-grid"></div>
+                </div>
+            </div>
+        </div><!-- /view-favorites -->
+
+        <!-- ── HISTORY VIEW ── -->
+        <div id="view-history" style="display:none;">
+            <div class="reader-topbar">
+                <button class="back-to-landing" id="btn-to-landing-hist">
+                    <i class="fa-solid fa-arrow-left"></i> Inicio
+                </button>
+                <span class="topbar-logo">
+                    <i class="fa-solid fa-clock-rotate-left" style="color:var(--accent-secondary);"></i> Historial
+                </span>
+                <button class="topbar-icon-btn" id="clear-hist-btn" title="Limpiar historial" style="color:var(--text-muted);">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+            <div style="padding-top:80px; max-width:700px; margin:0 auto;">
+                <div style="padding: 1.5rem;">
+                    <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:1.2rem;">🕒 Historial de Lectura</h3>
+                    <div id="history-list"></div>
+                </div>
+            </div>
+        </div><!-- /view-history -->
 
     </div><!-- /spa-wrapper -->
 
     <script src="js/api.js"></script>
+    <script src="js/storage.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>

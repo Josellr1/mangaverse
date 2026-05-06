@@ -1,33 +1,38 @@
 // MangaVerse — App Controller
 const App = {
     state: {
-        currentMangaId: null,
-        currentChapterId: null,
-        chapters: [],
-        activeLang: 'es',
-        firstLoad: true,
+        currentMangaId:    null,
+        currentMangaObj:   null,
+        currentChapterId:  null,
+        chapters:          [],
+        activeLang:        'es',
+        firstLoad:         true,
     },
 
     els: {},
 
     init() {
         this.els = {
-            viewLanding:    document.getElementById('view-landing'),
-            viewReaderApp:  document.getElementById('view-reader-app'),
-            viewDownload:   document.getElementById('view-download'),
-            mangaGrid:      document.getElementById('manga-grid'),
-            homeLoader:     document.getElementById('home-loader'),
-            chapterLoader:  document.getElementById('chapter-loader'),
-            searchInput:    document.getElementById('search-input'),
-            searchBtn:      document.getElementById('search-btn'),
-            resultsTitle:   document.getElementById('results-title'),
-            detailContainer:document.getElementById('detail-container'),
-            pagesContainer: document.getElementById('pages-container'),
-            chapterLabel:   document.getElementById('chapter-label'),
-            btnPrevCh:      document.getElementById('btn-prev-ch'),
-            btnNextCh:      document.getElementById('btn-next-ch'),
-            btnPrevCh2:     document.getElementById('btn-prev-ch-2'),
-            btnNextCh2:     document.getElementById('btn-next-ch-2'),
+            viewLanding:      document.getElementById('view-landing'),
+            viewReaderApp:    document.getElementById('view-reader-app'),
+            viewDownload:     document.getElementById('view-download'),
+            viewFavorites:    document.getElementById('view-favorites'),
+            viewHistory:      document.getElementById('view-history'),
+            mangaGrid:        document.getElementById('manga-grid'),
+            favsGrid:         document.getElementById('favs-grid'),
+            historyList:      document.getElementById('history-list'),
+            homeLoader:       document.getElementById('home-loader'),
+            chapterLoader:    document.getElementById('chapter-loader'),
+            searchInput:      document.getElementById('search-input'),
+            searchBtn:        document.getElementById('search-btn'),
+            resultsTitle:     document.getElementById('results-title'),
+            detailContainer:  document.getElementById('detail-container'),
+            pagesContainer:   document.getElementById('pages-container'),
+            chapterLabel:     document.getElementById('chapter-label'),
+            btnPrevCh:        document.getElementById('btn-prev-ch'),
+            btnNextCh:        document.getElementById('btn-next-ch'),
+            btnPrevCh2:       document.getElementById('btn-prev-ch-2'),
+            btnNextCh2:       document.getElementById('btn-next-ch-2'),
         };
         this.bindEvents();
         this.initParticles();
@@ -41,21 +46,24 @@ const App = {
         const mob = document.getElementById('mob-read-btn');
         if (mob) mob.addEventListener('click', toReader);
 
+        // Back to landing
         document.getElementById('btn-to-landing').addEventListener('click', () => this.showLanding());
-        const btnToLandingDl = document.getElementById('btn-to-landing-dl');
-        if (btnToLandingDl) btnToLandingDl.addEventListener('click', () => this.showLanding());
+        const btnDl = document.getElementById('btn-to-landing-dl');
+        if (btnDl) btnDl.addEventListener('click', () => this.showLanding());
+        const btnFavBack = document.getElementById('btn-to-landing-fav');
+        if (btnFavBack) btnFavBack.addEventListener('click', () => this.showLanding());
+        const btnHistBack = document.getElementById('btn-to-landing-hist');
+        if (btnHistBack) btnHistBack.addEventListener('click', () => this.showLanding());
+
         document.getElementById('nav-logo-btn').addEventListener('click', (e) => { e.preventDefault(); this.showLanding(); });
 
-        // Download View link
+        // Android download -> dedicated view
         const androidBtn = document.getElementById('android-btn');
         if (androidBtn) {
-            androidBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.showDownload();
-            });
+            androidBtn.addEventListener('click', (e) => { e.preventDefault(); this.showDownload(); });
         }
 
-        // Back buttons
+        // Back buttons in reader
         document.getElementById('btn-back-to-home').addEventListener('click', () => { UI.showScreen('screen-home'); window.scrollTo(0,0); });
         document.getElementById('btn-back-to-detail').addEventListener('click', () => { UI.showScreen('screen-detail'); window.scrollTo(0,0); });
 
@@ -69,6 +77,8 @@ const App = {
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 this.state.activeLang = btn.dataset.lang;
+                // Reload the grid with new language
+                this.loadPopular();
             });
         });
 
@@ -83,6 +93,23 @@ const App = {
         const mm = document.getElementById('mobile-menu');
         if (hb && mm) hb.addEventListener('click', () => mm.classList.toggle('open'));
 
+        // Reader nav links
+        const navFavBtn = document.getElementById('nav-favs-btn');
+        if (navFavBtn) navFavBtn.addEventListener('click', (e) => { e.preventDefault(); this.showFavorites(); });
+        const navHistBtn = document.getElementById('nav-hist-btn');
+        if (navHistBtn) navHistBtn.addEventListener('click', (e) => { e.preventDefault(); this.showHistory(); });
+
+        // History clear button
+        const clearHistBtn = document.getElementById('clear-hist-btn');
+        if (clearHistBtn) {
+            clearHistBtn.addEventListener('click', () => {
+                if (confirm('¿Borrar todo el historial de lectura?')) {
+                    Storage.clearHistory();
+                    this._renderHistory();
+                }
+            });
+        }
+
         // Navbar shadow on scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
@@ -90,22 +117,21 @@ const App = {
         }, { passive: true });
     },
 
-    showLanding() {
-        this.els.viewLanding.style.display = 'block';
-        this.els.viewReaderApp.style.display = 'none';
-        if (this.els.viewDownload) this.els.viewDownload.style.display = 'none';
-        window.scrollTo(0, 0);
+    _hideAllViews() {
+        ['view-landing','view-reader-app','view-download','view-favorites','view-history'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
     },
 
-    showDownload() {
-        this.els.viewLanding.style.display = 'none';
-        this.els.viewReaderApp.style.display = 'none';
-        if (this.els.viewDownload) this.els.viewDownload.style.display = 'block';
+    showLanding() {
+        this._hideAllViews();
+        this.els.viewLanding.style.display = 'block';
         window.scrollTo(0, 0);
     },
 
     showReader() {
-        this.els.viewLanding.style.display = 'none';
+        this._hideAllViews();
         this.els.viewReaderApp.style.display = 'block';
         UI.showScreen('screen-home');
         window.scrollTo(0, 0);
@@ -115,10 +141,45 @@ const App = {
         }
     },
 
+    showDownload() {
+        this._hideAllViews();
+        if (this.els.viewDownload) this.els.viewDownload.style.display = 'block';
+        window.scrollTo(0, 0);
+    },
+
+    showFavorites() {
+        this._hideAllViews();
+        if (this.els.viewFavorites) {
+            this.els.viewFavorites.style.display = 'block';
+            this._renderFavorites();
+        }
+        window.scrollTo(0, 0);
+    },
+
+    showHistory() {
+        this._hideAllViews();
+        if (this.els.viewHistory) {
+            this.els.viewHistory.style.display = 'block';
+            this._renderHistory();
+        }
+        window.scrollTo(0, 0);
+    },
+
+    _renderFavorites() {
+        const favs = Storage.getFavorites();
+        if (this.els.favsGrid) UI.renderFavsGrid(favs, this.els.favsGrid);
+    },
+
+    _renderHistory() {
+        const hist = Storage.getHistory();
+        if (this.els.historyList) UI.renderHistoryList(hist, this.els.historyList);
+    },
+
     async loadPopular() {
         this._showGridLoader();
         this.els.resultsTitle.textContent = '🔥 Populares Ahora';
-        const mangas = await MangaAPI.search('', 24, 0);
+        const lang = this.state.activeLang === 'all' ? '' : this.state.activeLang;
+        const mangas = await MangaAPI.search('', 24, 0, lang);
         this._hideGridLoader();
         UI.renderGrid(mangas, this.els.mangaGrid);
     },
@@ -135,6 +196,9 @@ const App = {
 
     async openDetail(mangaId) {
         this.state.currentMangaId = mangaId;
+        // Make sure reader view is visible
+        this._hideAllViews();
+        this.els.viewReaderApp.style.display = 'block';
         UI.showScreen('screen-detail');
         window.scrollTo(0, 0);
 
@@ -146,7 +210,8 @@ const App = {
             MangaAPI.getChapters(mangaId, lang || 'es', 120, 0)
         ]);
 
-        this.state.chapters = chapters;
+        this.state.chapters    = chapters;
+        this.state.currentMangaObj = manga;
 
         if (manga) {
             UI.renderDetail(manga, chapters, this.els.detailContainer);
@@ -155,7 +220,7 @@ const App = {
         }
     },
 
-    async openChapter(chapterId, label) {
+    async openChapter(chapterId, label, manga) {
         this.state.currentChapterId = chapterId;
         UI.showScreen('screen-chapter');
         window.scrollTo(0, 0);
@@ -170,11 +235,30 @@ const App = {
         const images = await MangaAPI.getChapterImages(chapterId);
         this.els.chapterLoader.style.display = 'none';
         UI.renderPages(images, this.els.pagesContainer);
+
+        // Save to history
+        if (manga) {
+            Storage.addHistory({
+                mangaId:      manga.id,
+                mangaTitle:   MangaAPI.getTitle(manga),
+                coverUrl:     MangaAPI.getCoverUrl(manga, 256),
+                chapterId,
+                chapterTitle: label,
+            });
+        } else if (this.state.currentMangaObj) {
+            const m = this.state.currentMangaObj;
+            Storage.addHistory({
+                mangaId:      m.id,
+                mangaTitle:   MangaAPI.getTitle(m),
+                coverUrl:     MangaAPI.getCoverUrl(m, 256),
+                chapterId,
+                chapterTitle: label,
+            });
+        }
     },
 
     _updateNavBtns(chapterId) {
         const idx = this.state.chapters.findIndex(c => c.id === chapterId);
-        // Capítulos en orden desc: anterior = idx+1, siguiente = idx-1
         const hasPrev = idx < this.state.chapters.length - 1;
         const hasNext = idx > 0;
         [this.els.btnPrevCh, this.els.btnPrevCh2].forEach(b => b.disabled = !hasPrev);
@@ -188,7 +272,7 @@ const App = {
         if (next < 0 || next >= this.state.chapters.length) return;
         const ch = this.state.chapters[next];
         const label = ch.attributes?.chapter ? `Cap. ${ch.attributes.chapter}` : 'Oneshot';
-        this.openChapter(ch.id, label);
+        this.openChapter(ch.id, label, this.state.currentMangaObj);
     },
 
     _showGridLoader() {
@@ -210,7 +294,7 @@ const App = {
         let W, H, particles;
 
         const resize = () => {
-            W = canvas.width = canvas.offsetWidth;
+            W = canvas.width  = canvas.offsetWidth;
             H = canvas.height = canvas.offsetHeight;
         };
 

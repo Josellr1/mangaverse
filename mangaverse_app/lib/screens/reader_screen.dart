@@ -6,6 +6,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/manga_model.dart';
 import '../services/api_service.dart';
+import '../services/history_service.dart';
 import '../theme/app_theme.dart';
 
 class ReaderScreen extends StatefulWidget {
@@ -13,6 +14,9 @@ class ReaderScreen extends StatefulWidget {
   final String chapterTitle;
   final List<Chapter> chapters;
   final int currentIndex;
+  final String mangaId;
+  final String mangaTitle;
+  final String? coverUrl;
 
   const ReaderScreen({
     super.key,
@@ -20,6 +24,9 @@ class ReaderScreen extends StatefulWidget {
     required this.chapterTitle,
     required this.chapters,
     required this.currentIndex,
+    required this.mangaId,
+    required this.mangaTitle,
+    this.coverUrl,
   });
 
   @override
@@ -54,7 +61,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
   Future<void> _loadPages(String chapterId) async {
     setState(() { _loading = true; _pages = []; });
     final pages = await ApiService.getChapterPages(chapterId);
-    if (mounted) setState(() { _pages = pages; _loading = false; });
+    if (mounted) {
+      setState(() { _pages = pages; _loading = false; });
+      // Record to history
+      await HistoryService.addEntry(HistoryEntry(
+        chapterId: chapterId,
+        mangaId: widget.mangaId,
+        mangaTitle: widget.mangaTitle,
+        coverUrl: widget.coverUrl,
+        chapterTitle: _currentChapterTitle,
+        readAt: DateTime.now(),
+      ));
+    }
   }
 
   void _goToChapter(int newIndex) {

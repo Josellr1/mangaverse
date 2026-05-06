@@ -53,7 +53,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _toggleFav() async {
     if (_manga == null) return;
-    // Build minimal json for storage
     final json = {
       'id': _manga!.id,
       'attributes': {
@@ -63,19 +62,9 @@ class _DetailScreenState extends State<DetailScreen> {
         'year': _manga!.year,
         'tags': [],
       },
-      'relationships': _manga!.coverUrl != null
-          ? [
-              {
-                'type': 'cover_art',
-                'attributes': {
-                  'fileName': _manga!.coverUrl!
-                      .split('/')
-                      .last
-                      .replaceAll('.256.jpg', ''),
-                },
-              }
-            ]
-          : [],
+      // Store the cover URL in a special key to avoid re-parsing issues
+      '_coverUrl': _manga!.coverUrl,
+      'relationships': [],
     };
     await FavoritesService.toggle(json);
     if (mounted) setState(() => _isFav = !_isFav);
@@ -261,6 +250,9 @@ class _DetailScreenState extends State<DetailScreen> {
             chapterTitle: ch.displayTitle,
             chapters: _chapters,
             currentIndex: index,
+            mangaId: widget.mangaId,
+            mangaTitle: _manga?.title ?? '',
+            coverUrl: _manga?.coverUrl,
           ),
         ),
       ),

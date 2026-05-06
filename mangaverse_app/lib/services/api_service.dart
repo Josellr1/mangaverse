@@ -15,17 +15,24 @@ class ApiService {
     String query, {
     int limit = 24,
     int offset = 0,
+    String? lang, // 'es', 'en', or null = all
   }) async {
     try {
-      final uri = Uri.parse('$_base/manga').replace(queryParameters: {
+      final params = <String, dynamic>{
         if (query.isNotEmpty) 'title': query,
         'limit': '$limit',
         'offset': '$offset',
         'includes[]': ['cover_art', 'author'],
         'order[followedCount]': 'desc',
         'contentRating[]': ['safe', 'suggestive'],
-      });
+      };
+      if (lang == 'es') {
+        params['availableTranslatedLanguage[]'] = ['es', 'es-la'];
+      } else if (lang == 'en') {
+        params['availableTranslatedLanguage[]'] = ['en'];
+      }
 
+      final uri = Uri.parse('$_base/manga').replace(queryParameters: params);
       final res = await http.get(uri, headers: _headers);
       if (res.statusCode != 200) return [];
       final json = jsonDecode(res.body) as Map<String, dynamic>;

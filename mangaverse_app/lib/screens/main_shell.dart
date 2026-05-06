@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'home_screen.dart';
 import 'favorites_screen.dart';
+import 'history_screen.dart';
+import 'profile_screen.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -17,6 +19,8 @@ class _MainShellState extends State<MainShell> {
   final _screens = const [
     HomeScreen(),
     FavoritesScreen(),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   @override
@@ -43,6 +47,16 @@ class _MainShellState extends State<MainShell> {
               icon: Icon(Icons.favorite_outline),
               activeIcon: Icon(Icons.favorite),
               label: 'Favoritos',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history_outlined),
+              activeIcon: Icon(Icons.history),
+              label: 'Historial',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
+              label: 'Perfil',
             ),
           ],
         ),
