@@ -143,8 +143,10 @@ const MangaAPI = {
       const pages   = chapter.dataSaver || chapter.data || [];
       const quality = chapter.dataSaver ? 'data-saver' : 'data';
 
-      // Siempre uploads.mangadex.org → CORS abierto, funciona desde cualquier origen
-      return pages.map(p => `${UPLOADS}/${quality}/${chapter.hash}/${p}`);
+      const baseUrl = data.baseUrl || UPLOADS;
+
+      // Usar la baseUrl proporcionada por el nodo (CORS no es problema para etiquetas <img>)
+      return pages.map(p => `${baseUrl}/${quality}/${chapter.hash}/${p}`);
     } catch (e) {
       console.error('[API] getChapterImages:', e);
       return [];
