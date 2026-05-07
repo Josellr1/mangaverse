@@ -5,11 +5,13 @@ const UPLOADS   = 'https://uploads.mangadex.org';
 // ── PROXY POOL ──────────────────────────────────────────────────────────────
 // Se prueban en orden hasta que uno funciona. El índice exitoso se guarda
 // en sessionStorage para no repetir la detección en cada petición.
+// Todos estos proxies tienen soporte para content-type JSON.
 const PROXIES = [
-  (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
   (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
+  (url) => `https://cors.sh/?${encodeURIComponent(url)}`,
 ];
 
 let _proxyIdx = (() => {
@@ -126,42 +128,23 @@ const MangaAPI = {
 
   /**
    * URLs de páginas de un capítulo vía @home.
-   * Estrategia:
-   *  1. Directo (MangaDex soporta CORS en /at-home)
-   *  2. Con proxy como fallback
-   *  IMPORTANTE: Usamos siempre uploads.mangadex.org (CORS abierto) como base
-   *  en vez del nodo dinámico at-home que bloquea cross-origin desde GitHub Pages.
+   * SIEMPRE usa proxy (el endpoint at-home bloquea CORS desde GitHub Pages).
+   * Las imágenes finales se sirven desde uploads.mangadex.org (CORS abierto).
    */
   async getChapterImages(chapterId) {
     try {
       const atHomeUrl = `${API_BASE}/at-home/server/${chapterId}`;
-      let data;
-
-      // 1️⃣ Intento directo (CORS abierto en esta ruta)
-      try {
-        const res = await fetchWithTimeout(atHomeUrl, 8000);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        data = await res.json();
-      } catch (directErr) {
-        console.warn('[API] at-home directo falló, usando proxy:', directErr.message);
-        // 2️⃣ Fallback con proxy
-        const res2 = await fetchProxy(atHomeUrl);
-        data = await res2.json();
-      }
+      const res = await fetchProxy(atHomeUrl);
+      const data = await res.json();
 
       if (!data?.chapter) throw new Error('Respuesta at-home inválida');
 
       const chapter = data.chapter;
-      // Preferir data-saver (más ligero y rápido)
       const pages   = chapter.dataSaver || chapter.data || [];
       const quality = chapter.dataSaver ? 'data-saver' : 'data';
 
-      // ⚠️ SIEMPRE usar uploads.mangadex.org (CORS abierto universal)
-      // El baseUrl dinámico del at-home node bloquea peticiones cross-origin
-      // desde GitHub Pages porque varía por IP y no tiene CORS permisivo.
-      const baseUrl = UPLOADS;
-
-      return pages.map(p => `${baseUrl}/${quality}/${chapter.hash}/${p}`);
+      // Siempre uploads.mangadex.org → CORS abierto, funciona desde cualquier origen
+      return pages.map(p => `${UPLOADS}/${quality}/${chapter.hash}/${p}`);
     } catch (e) {
       console.error('[API] getChapterImages:', e);
       return [];
