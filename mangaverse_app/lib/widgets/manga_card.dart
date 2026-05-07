@@ -56,6 +56,18 @@ class MangaCard extends StatelessWidget {
                       height: 1.3,
                     ),
                   ),
+                  if (manga.author != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      manga.author!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.textMuted,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
                   if (manga.tags.isNotEmpty) ...[
                     const SizedBox(height: 6),
                     Wrap(

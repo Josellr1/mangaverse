@@ -7,7 +7,7 @@ class ApiService {
   static const _base = 'https://api.mangadex.org';
 
   static Map<String, String> get _headers => {
-        'User-Agent': 'MangaVerse/1.0',
+        'User-Agent': 'MangaVerseApp/1.0 (https://github.com/Josellr1/mangaverse)',
       };
 
   /// Search or get popular mangas
@@ -109,7 +109,7 @@ class ApiService {
           (chapter['data'] as List<dynamic>?)?.cast<String>() ??
           [];
       final quality = chapter.containsKey('dataSaver') ? 'data-saver' : 'data';
-      const cdnBase = 'https://uploads.mangadex.org';
+      final cdnBase = json['baseUrl'] as String? ?? 'https://uploads.mangadex.org';
       return pages.map((p) => '$cdnBase/$quality/$hash/$p').toList();
     } catch (e) {
       return [];
