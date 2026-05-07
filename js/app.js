@@ -257,6 +257,13 @@ const App = {
         }
     },
 
+    /** Retry loading the current chapter (called from inline button in UI) */
+    retryChapter() {
+        if (!this.state.currentChapterId) return;
+        const label = this.els.chapterLabel.textContent;
+        this.openChapter(this.state.currentChapterId, label, this.state.currentMangaObj);
+    },
+
     _updateNavBtns(chapterId) {
         const idx = this.state.chapters.findIndex(c => c.id === chapterId);
         const hasPrev = idx < this.state.chapters.length - 1;

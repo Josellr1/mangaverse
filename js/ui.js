@@ -173,17 +173,65 @@ const UI = {
     renderPages(urls, container) {
         container.innerHTML = '';
         if (!urls || urls.length === 0) {
-            container.innerHTML = `<div class="grid-loader"><span style="color:var(--text-muted);text-align:center;padding:2rem;">No se pudieron cargar las páginas.<br>El servidor de MangaDex puede estar saturado. Intenta de nuevo.</span></div>`;
+            container.innerHTML = `
+                <div class="grid-loader" style="flex-direction:column;gap:1rem;padding:3rem;">
+                    <span style="font-size:3rem;">😕</span>
+                    <span style="color:var(--text-muted);text-align:center;">
+                        No se pudieron cargar las páginas.<br>
+                        <small>El servidor de MangaDex puede estar saturado.</small>
+                    </span>
+                    <button onclick="App.retryChapter()" style="
+                        background:var(--accent-primary);color:#fff;border:none;
+                        padding:10px 24px;border-radius:10px;font-size:0.95rem;
+                        cursor:pointer;font-weight:600;margin-top:0.5rem;">
+                        🔄 Reintentar
+                    </button>
+                </div>`;
             return;
         }
         urls.forEach((url, i) => {
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'position:relative;width:100%;background:#111;';
+
+            // Skeleton loader per page
+            const skeleton = document.createElement('div');
+            skeleton.style.cssText = 'width:100%;height:200px;background:linear-gradient(90deg,#1a1d2e 25%,#252844 50%,#1a1d2e 75%);background-size:400% 100%;animation:shimmer 1.4s infinite;display:flex;align-items:center;justify-content:center;color:#555;font-size:0.85rem;';
+            skeleton.textContent = `Pág. ${i + 1}`;
+            wrapper.appendChild(skeleton);
+
             const img = document.createElement('img');
             img.className = 'page-img';
-            img.src       = url;
-            img.alt       = `Página ${i + 1}`;
-            img.loading   = 'lazy';
+            img.alt = `Página ${i + 1}`;
+            img.loading = 'lazy';
             img.referrerPolicy = 'no-referrer';
-            container.appendChild(img);
+            img.style.display = 'none';
+
+            img.onload = () => {
+                skeleton.remove();
+                img.style.display = 'block';
+            };
+
+            img.onerror = () => {
+                // Retry once with a slight delay, then show error
+                setTimeout(() => {
+                    const retryImg = new Image();
+                    retryImg.referrerPolicy = 'no-referrer';
+                    retryImg.onload = () => {
+                        img.src = retryImg.src;
+                    };
+                    retryImg.onerror = () => {
+                        skeleton.style.cssText = 'width:100%;height:80px;display:flex;align-items:center;justify-content:center;color:#555;font-size:0.8rem;background:#0d0e1a;';
+                        skeleton.textContent = `⚠ Pág. ${i + 1} no disponible`;
+                        img.remove();
+                    };
+                    // Try with cache-busting on retry
+                    retryImg.src = url + (url.includes('?') ? '&' : '?') + '_r=' + Date.now();
+                }, 2000);
+            };
+
+            img.src = url;
+            wrapper.appendChild(img);
+            container.appendChild(wrapper);
         });
     },
 
