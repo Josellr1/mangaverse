@@ -129,6 +129,8 @@ const MangaAPI = {
    * Estrategia:
    *  1. Directo (MangaDex soporta CORS en /at-home)
    *  2. Con proxy como fallback
+   *  IMPORTANTE: Usamos siempre uploads.mangadex.org (CORS abierto) como base
+   *  en vez del nodo dinámico at-home que bloquea cross-origin desde GitHub Pages.
    */
   async getChapterImages(chapterId) {
     try {
@@ -153,7 +155,11 @@ const MangaAPI = {
       // Preferir data-saver (más ligero y rápido)
       const pages   = chapter.dataSaver || chapter.data || [];
       const quality = chapter.dataSaver ? 'data-saver' : 'data';
-      const baseUrl = data.baseUrl || UPLOADS;
+
+      // ⚠️ SIEMPRE usar uploads.mangadex.org (CORS abierto universal)
+      // El baseUrl dinámico del at-home node bloquea peticiones cross-origin
+      // desde GitHub Pages porque varía por IP y no tiene CORS permisivo.
+      const baseUrl = UPLOADS;
 
       return pages.map(p => `${baseUrl}/${quality}/${chapter.hash}/${p}`);
     } catch (e) {
