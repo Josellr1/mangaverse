@@ -122,24 +122,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       onTap: _toggleBars,
                       child: ListView.builder(
                         itemCount: _pages.length,
-                        itemBuilder: (_, i) => CachedNetworkImage(
-                          imageUrl: _pages[i],
-                          fit: BoxFit.fitWidth,
-                          width: double.infinity,
-                          placeholder: (_, __) => const SizedBox(
-                            height: 200,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                  color: AppColors.primary, strokeWidth: 2),
-                            ),
-                          ),
-                          errorWidget: (_, __, ___) => const SizedBox(
-                            height: 80,
-                            child: Center(
-                              child: Icon(Icons.broken_image,
-                                  color: AppColors.textMuted),
-                            ),
-                          ),
+                        itemBuilder: (_, i) => _PageImage(
+                          url: _pages[i],
+                          pageNumber: i + 1,
                         ),
                       ),
                     ),
@@ -265,6 +250,65 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             fontSize: 14)),
                   ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Página individual con soporte de retry ─────────────────────────────────
+class _PageImage extends StatefulWidget {
+  final String url;
+  final int pageNumber;
+
+  const _PageImage({required this.url, required this.pageNumber});
+
+  @override
+  State<_PageImage> createState() => _PageImageState();
+}
+
+class _PageImageState extends State<_PageImage> {
+  int _attempt = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      key: ValueKey('${widget.url}_$_attempt'),
+      imageUrl: widget.url,
+      fit: BoxFit.fitWidth,
+      width: double.infinity,
+      placeholder: (_, __) => Container(
+        height: 220,
+        color: const Color(0xFF0D0F1A),
+        child: const Center(
+          child: CircularProgressIndicator(
+              color: AppColors.primary, strokeWidth: 2),
+        ),
+      ),
+      errorWidget: (_, __, ___) => Container(
+        color: const Color(0xFF0D0F1A),
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.broken_image_outlined,
+                color: AppColors.textMuted, size: 36),
+            const SizedBox(height: 8),
+            Text('Pág. ${widget.pageNumber} no disponible',
+                style: const TextStyle(
+                    color: AppColors.textMuted, fontSize: 12)),
+            const SizedBox(height: 8),
+            if (_attempt < 3)
+              TextButton(
+                onPressed: () => setState(() => _attempt++),
+                style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 6)),
+                child: const Text('🔄 Reintentar',
+                    style: TextStyle(fontSize: 13)),
+              ),
+          ],
         ),
       ),
     );

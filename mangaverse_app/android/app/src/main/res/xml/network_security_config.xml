@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Configuración de seguridad de red para MangaVerse.
+    Permite HTTPS a los dominios de MangaDex y al CDN de imágenes.
+    No se permite HTTP en texto claro (cleartext) por seguridad.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </base-config>
+
+    <!-- Dominios de MangaDex -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">mangadex.org</domain>
+        <domain includeSubdomains="true">uploads.mangadex.org</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
